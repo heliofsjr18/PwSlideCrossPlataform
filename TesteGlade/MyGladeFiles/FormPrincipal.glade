@@ -169,7 +169,7 @@ e clique em download...</property>
               <widget class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
                 <child>
-                  <widget class="GtkButton" id="button1">
+                  <widget class="GtkButton" id="buttonDownload">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
