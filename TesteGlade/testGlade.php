@@ -5,7 +5,7 @@ class mainClass
         
     public function __construct()
     {
-        $glade = new GladeXML('C:\Users\aluno\Desktop\projeto pw\trunk\TesteGlade\MyGladeFiles\FormPrincipal.glade');
+        $glade = new GladeXML('C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\MyGladeFiles\FormPrincipal.glade');
         $windowPrincipal = new GtkWindow();             
                
         $windowPrincipal = $glade->get_widget('windowPrincipal');
@@ -38,6 +38,8 @@ class mainClass
 
     public function on_buttonClicked()
     {
+    	/*
+    	
     	//echo "passei";
     	$key = "3551865-6e82c33b15bb737c30d00e864" ;
 		$response = file_get_contents("http://pixabay.com/api/?key=" . $key . "&q=Guitarra&image_type=photo&per_page=20");
@@ -56,7 +58,7 @@ class mainClass
 				//readfile($value["webformatURL"]);
 				echo "passei por aqui";
 				exec("php -r \"readfile('".$value["imageWidth"]."');\" > C:\Users\aluno\Desktop\projeto pw\trunk\TesteGlade".$cont.".jpg"." ");
-			}*/
+			}
 
 			$ch = curl_init();
 			//echo "curl_init()";
@@ -66,9 +68,33 @@ class mainClass
 			$data = curl_exec($ch);
 			//echo "curl_exec()";
 			echo $data;
-
 			
-		}
+			*/
+			
+			
+            $postImageName = 'programa-imagem-som';
+            $postImageUrl = 'http://publicador.tvcultura.com.br/upload/tvcultura/programas/programa-imagem-som.jpg';
+            //$postImageExt = '.jpg';
+            
+            //renomeando a imagem
+            $postImageName = str_replace(" ", "", $postImageName);
+            
+            //abre uma session curl
+            $ch = curl_init();
+            //seta a imagem dentro da session
+            $rawImage = curl_setopt($ch, CURLOPT_URL, $postImageName);
+            //executa
+            curl_exec($ch);
+            //se de fato a imagem for uma imagem, então pega o nome da imagem concatena com a extensão e salva
+            //a imagem dentro do diretório images/
+            if ($rawImage) {
+                file_put_contents("C:\\Users\\helio\\Desktop\\GitHubCollegeProjects\\PwSlideCrossPlataform\\TesteGlade\\images\\"  , $rawImage);
+                echo "Imagem salva!";
+            } else {
+                echo "Erro ao pegar imagem da url";
+            }
+			
+		
      
     }
 }
