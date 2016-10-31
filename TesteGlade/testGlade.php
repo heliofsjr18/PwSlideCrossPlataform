@@ -1,8 +1,8 @@
 <?php 	 
   
 class mainClass
-{
-        
+{        
+    
     public function __construct()
     {
         $glade = new GladeXML('C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\MyGladeFiles\FormPrincipal.glade');
@@ -16,7 +16,7 @@ class mainClass
         
         $menuSobre = new GtkImageMenuItem();        
         $menuSobre = $glade->get_widget('menuSobre');
-        $menuSobre->connect_simple('activate' ,array($this, 'on_menuSobreClicked'));
+        $menuSobre->connect_simple('activate' ,array($this, 'on_menuSobreClicked'), $windowPrincipal);
 
         $Downloadbutton = new GtkButton();
         $Downloadbutton = $glade->get_widget('buttonDownload');
@@ -24,10 +24,11 @@ class mainClass
                        
     }
 
-    public function on_menuSobreClicked() 
+    public function on_menuSobreClicked($windowPrincipal) 
     {    
             
         $aboutWindow = new GtkAboutDialog();
+        $aboutWindow->set_parent($windowPrincipal);
         $aboutWindow->set_modal(1);        
         $aboutWindow->set_name('Slide it!!!');
         $aboutWindow->set_version('0.3');                
