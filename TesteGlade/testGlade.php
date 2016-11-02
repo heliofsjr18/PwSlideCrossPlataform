@@ -6,7 +6,7 @@ class mainClass
 
     public function __construct()
     {
-        $glade = new GladeXML('C:\Users\aluno\Desktop\projetogithub\trunk\TesteGlade\MyGladeFiles\FormPrincipal.glade');
+        $glade = new GladeXML('C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\MyGladeFiles\FormPrincipal.glade');
         $windowPrincipal = new GtkWindow();                    
 
                
@@ -54,13 +54,9 @@ class mainClass
 		{
 			$cont++;
 			echo "<img src =\"" . $value["webformatURL"] . "\" >";
-			/*if ($value["imageWidth"] / $value["imageHeight"] = 1.6) {
-				@copy($value["webformatURL"],"./Img" .$cont . ".jpg");
-				echo "passei por aqui";
-			}*/
 
 		 	$ch = curl_init($value["webformatURL"]);
-			$fp = fopen('C:\\Users\\aluno\\Desktop\\projetogithub\\trunk\\TesteGlade\\images\\' . $cont .'.jpg', 'wb');
+			$fp = fopen('C:\\Users\\helio\\Desktop\\GitHubCollegeProjects\\PwSlideCrossPlataform\\TesteGlade\\images\\' . $cont .'.jpg', 'wb');
 			curl_setopt($ch, CURLOPT_FILE, $fp);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -72,7 +68,8 @@ class mainClass
 			
 		echo "Imagem Salva!!!!!!!!";
 
-		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\\Users\\aluno\\Desktop\\projetogithub\\trunk\\TesteGlade\\images\\1.jpg /f');
+		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\images\2.jpg /f');		
+		exec(' RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters ');
 
 		echo "imagem Setada!!!!!!!!";     
     }
