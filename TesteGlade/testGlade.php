@@ -2,18 +2,23 @@
   
 class mainClass
 {
-        
+	private $entry;
+
     public function __construct()
     {
-        $glade = new GladeXML('C:\Users\aluno\Desktop\projeto pw\trunk\TesteGlade\MyGladeFiles\FormPrincipal.glade');
-        $windowPrincipal = new GtkWindow();             
+        $glade = new GladeXML('C:\Users\aluno\Desktop\projetogithub\trunk\TesteGlade\MyGladeFiles\FormPrincipal.glade');
+        $windowPrincipal = new GtkWindow();                    
+
                
         $windowPrincipal = $glade->get_widget('windowPrincipal');
         $windowPrincipal->connect_simple('destroy', array('Gtk', 'main_quit'));
         $windowPrincipal->set_size_request( 600 , 260);
         $windowPrincipal->show_all();
-        
-        
+
+    	$this->entry = new GtkEntry();
+        $this->entry = $glade->get_widget('entry1');        
+
+
         $menuSobre = new GtkImageMenuItem();        
         $menuSobre = $glade->get_widget('menuSobre');
         $menuSobre->connect_simple('activate' ,array($this, 'on_menuSobreClicked'));
@@ -37,39 +42,39 @@ class mainClass
     }                  
 
     public function on_buttonClicked()
-    {
-    	//echo "passei";
+    {        
+    	$text = $this->entry->get_text(); 
     	$key = "3551865-6e82c33b15bb737c30d00e864" ;
-		$response = file_get_contents("http://pixabay.com/api/?key=" . $key . "&q=Guitarra&image_type=photo&per_page=20");
+		$response = file_get_contents("http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=3");
+
+		echo "http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=20";
 		$response = json_decode($response,true);
-		$imagem = array();
 		$cont = 0;
 		foreach ($response["hits"] as &$value)
 		{
 			$cont++;
-			//echo "<img src =\"" . $value["webformatURL"] . "\" >";
-			/*if ($value["imageWidth"] / $value["imageHeight"] = 1.6) 
-			{
-				//$getImage = file_get_contents($value["webformatURL"]);
-				//echo $getImage;
-				//@copy($value["webformatURL"],'/' .$cont . ".jpg");
-				//readfile($value["webformatURL"]);
+			echo "<img src =\"" . $value["webformatURL"] . "\" >";
+			/*if ($value["imageWidth"] / $value["imageHeight"] = 1.6) {
+				@copy($value["webformatURL"],"./Img" .$cont . ".jpg");
 				echo "passei por aqui";
-				exec("php -r \"readfile('".$value["imageWidth"]."');\" > C:\Users\aluno\Desktop\projeto pw\trunk\TesteGlade".$cont.".jpg"." ");
 			}*/
 
-			$ch = curl_init();
-			//echo "curl_init()";
-			curl_setopt($ch, CURLOPT_URL, $value["webformatURL"]);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-			//echo "curl_setopt()";
-			$data = curl_exec($ch);
-			//echo "curl_exec()";
-			echo $data;
-
+		 	$ch = curl_init($value["webformatURL"]);
+			$fp = fopen('C:\\Users\\aluno\\Desktop\\projetogithub\\trunk\\TesteGlade\\images\\' . $cont .'.jpg', 'wb');
+			curl_setopt($ch, CURLOPT_FILE, $fp);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_HEADER, 0);
+			curl_exec($ch);
+			curl_close($ch);
+			fclose($fp);
 			
 		}
-     
+			
+		echo "Imagem Salva!!!!!!!!";
+
+		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\\Users\\aluno\\Desktop\\projetogithub\\trunk\\TesteGlade\\images\\1.jpg /f');
+
+		echo "imagem Setada!!!!!!!!";     
     }
 }
 
