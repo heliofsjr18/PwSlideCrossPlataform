@@ -2,18 +2,32 @@
   
 class mainClass
 {
+    //Every Systems Component
 	private $entry;
+	private $windowPrincipal;
+	private $aboutWindow;
 
     public function __construct()
-    {
+    {                  
+            
         $glade = new GladeXML('C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\MyGladeFiles\FormPrincipal.glade');
-        $windowPrincipal = new GtkWindow();                    
-
+        $this->windowPrincipal = new GtkWindow();                                    
                
-        $windowPrincipal = $glade->get_widget('windowPrincipal');
-        $windowPrincipal->connect_simple('destroy', array('Gtk', 'main_quit'));
-        $windowPrincipal->set_size_request( 600 , 260);
-        $windowPrincipal->show_all();
+               
+        $this->windowPrincipal = $glade->get_widget('windowPrincipal');
+        $this->windowPrincipal->connect_simple('destroy', array('Gtk', 'main_quit'));
+        $this->windowPrincipal->set_size_request( 600 , 260);
+        //$this->windowPrincipal->set_parent($this->aboutWindow);
+        $this->windowPrincipal->show_all();              
+        
+                
+        $this->aboutWindow = new GtkAboutDialog();
+        $this->aboutWindow->set_modal(1);        
+        $this->aboutWindow->set_name('Slide it!!!');
+        $this->aboutWindow->set_version('0.3');                
+        $this->aboutWindow->set_copyright('Copyright (C) 2016 - ?? Desenvolvido por Helio Ferreira'."\n(Usando o glade como ferramenta para construir o Form)");                   
+        $this->aboutWindow->set_logo($this->aboutWindow->render_icon(Gtk::STOCK_CDROM, Gtk::ICON_SIZE_LARGE_TOOLBAR));
+        //$this->aboutWindow->set_position(5000);        
 
     	$this->entry = new GtkEntry();
         $this->entry = $glade->get_widget('entry1');        
@@ -29,17 +43,14 @@ class mainClass
                        
     }
 
+
+
     public function on_menuSobreClicked() 
-    {    
-            
-        $aboutWindow = new GtkAboutDialog();
-        $aboutWindow->set_modal(1);        
-        $aboutWindow->set_name('Slide it!!!');
-        $aboutWindow->set_version('0.3');                
-        $aboutWindow->set_copyright('Copyright (C) 2016 - ?? Desenvolvido por Helio Ferreira'."\n(Usando o glade como ferramenta para construir o Form)");                   
-        $aboutWindow->set_logo($aboutWindow->render_icon(Gtk::STOCK_CDROM, Gtk::ICON_SIZE_LARGE_TOOLBAR));        
-        $aboutWindow->run();      
-    }                  
+    {                       
+        $this->aboutWindow->run();      
+    }
+    
+                      
 
     public function on_buttonClicked()
     {        
