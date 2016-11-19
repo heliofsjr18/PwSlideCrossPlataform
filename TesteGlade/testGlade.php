@@ -3,9 +3,10 @@
 class mainClass
 {
     //Every Systems Component
-	private $entry;
+	private $textEntry;
 	private $windowPrincipal;
 	private $aboutWindow;
+	private $spinButtonEntry;
 
     public function __construct()
     {                  
@@ -29,8 +30,11 @@ class mainClass
         $this->aboutWindow->set_logo($this->aboutWindow->render_icon(Gtk::STOCK_CDROM, Gtk::ICON_SIZE_LARGE_TOOLBAR));
         //$this->aboutWindow->set_position(5000);        
 
-    	$this->entry = new GtkEntry();
-        $this->entry = $glade->get_widget('entry1');        
+    	$this->textEntry = new GtkEntry();
+        $this->textEntry = $glade->get_widget('entry1');
+        
+        $this->spinButtonEntry = new GtkSpinButton();
+        $this->spinButtonEntry = $glade->get_widget('spinbuttonQuantidade');        
 
 
         $menuSobre = new GtkImageMenuItem();        
@@ -54,11 +58,12 @@ class mainClass
 
     public function on_buttonClicked()
     {        
-    	$text = $this->entry->get_text(); 
+    	$text = $this->textEntry->get_text();
+    	$textSpin = $this->spinButtonEntry->get_value_as_int(); 
     	$key = "3551865-6e82c33b15bb737c30d00e864" ;
-		$response = file_get_contents("http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=3");
-
-		echo "http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=20";
+		//$response = file_get_contents("http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=3");
+        $response = file_get_contents("http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=".$textSpin);
+		echo "http://pixabay.com/api/?key=" . $key . "&q=".$text."&image_type=photo&per_page=".$textSpin;
 		$response = json_decode($response,true);
 		$cont = 0;
 		foreach ($response["hits"] as &$value)
@@ -76,10 +81,10 @@ class mainClass
 			fclose($fp);
 			
 		}
-			
+				
 		echo "Imagem Salva!!!!!!!!";
 
-		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\images\2.jpg /f');		
+		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\images\3 /f');		
 		exec(' RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters ');
 
 		echo "imagem Setada!!!!!!!!";     
