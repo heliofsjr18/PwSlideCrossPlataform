@@ -16,7 +16,7 @@ class mainClass
     public function __construct()
     {                  
             
-        $glade = new GladeXML('C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\MyGladeFiles\FormPrincipal.glade');
+        $glade = new GladeXML('C:\Users\Dayvson\Desktop\pw\trunk\TesteGlade\MyGladeFiles\FormPrincipal.glade');
         $this->windowPrincipal = new GtkWindow();                                    
                
                
@@ -133,16 +133,16 @@ class mainClass
 		//FIM - Validando existencia de imganes na pesquisa
 		
 		
-				
+		//exec('del "C:\Users\Dayvson\Desktop\pw\trunk\TesteGlade\images\*.*"');
 		//Inicio Download			
 		foreach ($response["hits"] as &$value)
 		{
 		    $this->progressoLabel->set_text("Baixando Imagens");
 			$cont++;
-			echo "<img src =\"" . $value["webformatURL"] . "\" >";
+			
 
 		 	$ch = curl_init($value["webformatURL"]);
-			$fp = fopen('C:\\Users\\helio\\Desktop\\GitHubCollegeProjects\\PwSlideCrossPlataform\\TesteGlade\\images\\' . $cont .'.jpg', 'wb');
+			$fp = fopen('C:\\Users\\Dayvson\\Desktop\\pw\\trunk\\TesteGlade\\images\\' . $cont .'.bmp', 'wb');
 			curl_setopt($ch, CURLOPT_FILE, $fp);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -156,10 +156,20 @@ class mainClass
 		$this->dialogInformation->set_title( "Imagem Salva!!!!!!!!");
 		$this->dialogInformation->show();
 
-
+        /*$x=1;
         //INICIO - Setando Imagen no WINDOWS;
-		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\helio\Desktop\GitHubCollegeProjects\PwSlideCrossPlataform\TesteGlade\images\3 /f');		
-		exec(' RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters ');
+        for($x;$x<=$cont;$x++)
+        {
+            exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\Dayvson\Desktop\pw\trunk\TesteGlade\images\\'.$x.'.bmp /f');        
+            exec('RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters');
+        }*/
+        exec('timeout 5');
+		exec('reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d C:\Users\Dayvson\Desktop\pw\trunk\TesteGlade\images\3.bmp /f');		
+		exec('timeout 5');
+        exec('RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters');
+        exec('timeout 5');
+        exec('RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters');
+
         //FIM - Setando Imagen no WINDOWS;
         
 		$this->dialogInformation->set_title( "imagem Setada!!!!!!!!");
